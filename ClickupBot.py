@@ -10,13 +10,14 @@ import openai
 import Levenshtein
 import time
 
+game_name = "Hitwicket Superstars" #change this to your game name
+
 token = os.getenv("DISCORD_NATASHA_TOKEN")
 #get read messages and send messages permissions
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix=["n","N"],help_command=None, case_insensitive = True, intents=intents)
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
 #clickup
 clickup_token = os.getenv("CLICKUP_TOKEN")
 clickup = pyclickup.ClickUp(clickup_token)
@@ -44,26 +45,40 @@ def createTask(name, description):
 
 
 def getTaskTitle(message):
-    a = "Make a clickup task title less than 13 words for the below message\n"
-    a = a + message
-    res = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=a,
-        max_tokens=512,
-        temperature=0
-    )
-    return "[BUG] "+ res["choices"][0]["text"].strip()
+    retries = 0
+    while retries < 5:
+        try:
+            a = "Make a clickup task title less than 13 words for the below message\n"
+            a = a + message
+            res = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=a,
+                max_tokens=512,
+                temperature=0
+            )
+            return "[BUG] "+ res["choices"][0]["text"].strip()
+        except:
+            retries = retries + 1
+            time.sleep(1)
+    return None
 
 def getTaskDescription(message):
-    a = "Make a bug report for the below message\n"
-    a = a + message
-    res = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=a,
-        max_tokens=1000,
-        temperature=0
-    )
-    return res["choices"][0]["text"].strip()
+    retries = 0
+    while retries < 5:
+        try:
+            a = "Make a bug report for the below message for a mobile cricket game\n"
+            a = a + message
+            res = openai.Completion.create(
+                model="text-davinci-003",
+                prompt=a,
+                max_tokens=1000,
+                temperature=0
+            )
+            return res["choices"][0]["text"].strip()
+        except:
+            retries = retries + 1
+            time.sleep(1)
+    return None
 
 
 def similarity_check(title1, title2, threshold):
@@ -90,7 +105,7 @@ class Priority(enum.Enum):
 @bot.event
 async def on_ready():
     activity = discord.Activity(
-        type=discord.ActivityType.playing, name="Hitwicket Superstars")
+        type=discord.ActivityType.playing, name=game_name)
     await bot.change_presence(activity=activity)
     print("We have logged in as {0.user}".format(bot))
 
@@ -120,6 +135,9 @@ async def on_message(message):
         title = ""
         if(message.content != ""):
             title = getTaskTitle(message.content)
+        if title == None:
+            await ctx.reply("OpenAI API failed to generate a title for the task. Please try again later")
+            return
         similar_tasks = []
         for task in all_tasks:
             if(similarity_check(task.name, title, 0.8)):
@@ -141,7 +159,7 @@ async def on_message(message):
             description = description + "\n\nAttachments:\n" + "\n".join(attachement_links)
         task = createTask(title, description)
         if task == None:
-            await ctx.reply("Error creating task")
+            await ctx.reply("Clickup API failed to create a task. Please try again later")
             return
         view = ClickupTask(task)
         embed = discord.Embed(title=task.name, description=task.description, color=0x00ff00)
