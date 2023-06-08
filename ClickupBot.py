@@ -115,6 +115,19 @@ async def on_message(message):
         return
     if message.mention_everyone:
         return
+    if message.author.bot:
+        if (message.channel.id == 1116309975392849950): # original channel where all app follow reviews are posted
+            embed = message.embeds[0]
+            msg = embed.description
+            msg = msg.split("Hitwicket Cricket Games")[1].strip()
+            rating, title, description = msg.split("\n")
+            by = embed.fields[0].value
+            if (len(description.split(" ")) > 4 or len(description) > 20): # filter out reviews with less than 4 words in description or less than 20 characters
+                channel = bot.get_channel(1070598072104656906) # channel where we want to post the filtered reviews
+                embed = discord.Embed(
+                    title=title, description=rating + "\n" + description + "\n" + by)
+                await channel.send(embed=embed)
+        return
     ctx = await bot.get_context(message)
     is_cmd = ctx.valid
     if(is_cmd):
