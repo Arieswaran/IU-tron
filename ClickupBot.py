@@ -57,7 +57,8 @@ def getTaskTitle(message):
                 temperature=0
             )
             return "[BUG] "+ res["choices"][0]["text"].strip()
-        except:
+        except Exception as e:
+            print(e)
             retries = retries + 1
             time.sleep(1)
     return None
