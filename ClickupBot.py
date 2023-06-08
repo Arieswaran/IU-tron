@@ -24,7 +24,7 @@ clickup = pyclickup.ClickUp(clickup_token)
 main_team = clickup.teams[0]
 main_space = main_team.spaces[0]
 main_project = main_space.projects[2]
-bug_list = main_project.lists[1]
+bug_list = main_project.lists[7]
 statuses_list = main_project.statuses
 all_tasks = bug_list.get_all_tasks()
 
