@@ -1,6 +1,6 @@
 ## IU-tron
 
-Welcome to IU-tron, where bugs go to die! Just kidding, they go to ClickUp, but that's almost the same thing, right?
+Welcome to IU-tron, where bugs go to die! Just kidding, they go to ClickUp, but that's almost the same thing, right? And it also does few more non interesting things.
 
 ## AI-powered bug reporting
 
@@ -20,6 +20,10 @@ But wait, there's more! IU-tron also has a built-in duplication checker, because
 ## Task management
 
 And speaking of personal assistants, IU-tron will send you all the details of the created task in a handy-dandy discord message. No more scrambling around trying to find where you put that task, it's all there for you. Plus, you can change the status and priority of the task right from the comfort of your discord server. It's like having a remote control for your tasks.
+
+## Filtering Reviews
+
+IU-tron also post reviews from Playstore and Appstore on Discord channels. There are other existing APIs for this, but they don't offer the filteration that we needed. So I created our own. It's not perfect, but it does the job.
 
 ## Conclusion
 
