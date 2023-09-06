@@ -22,9 +22,10 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 clickup_token = os.getenv("CLICKUP_TOKEN")
 clickup = pyclickup.ClickUp(clickup_token)
 main_team = clickup.teams[0]
-main_space = main_team.spaces[0]
-main_project = main_space.projects[2]
-bug_list = main_project.lists[7]
+main_space = main_team.spaces[1]
+main_project = main_space.projects[0]
+bug_list_index = len(main_project) - 1
+bug_list = main_project.lists[bug_list_index]
 statuses_list = main_project.statuses
 all_tasks = bug_list.get_all_tasks()
 
@@ -274,6 +275,16 @@ async def on_command_error(ctx, error):
     else:
         await ctx.send("An error occured")
         raise error
+    
+@commands.command()
+async def config(self,ctx):
+    print("TODO")
+
+
+class ConfigView(discord.ui.View):
+    def _init_(self):
+        super()._init_()
+    
     
 
 
