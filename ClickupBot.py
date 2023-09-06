@@ -68,7 +68,7 @@ def getTaskDescription(message):
     retries = 0
     while retries < 5:
         try:
-            a = "Make a bug report for the below message for a mobile cricket game\n"
+            a = "Make a bug report for the below message\n"
             a = a + message
             res = openai.Completion.create(
                 model="text-davinci-003",
