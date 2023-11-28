@@ -1,1 +1,1 @@
-from TasksView import *
+from .TasksView import *
