@@ -1,9 +1,7 @@
-import requests
-
+import datetime
 import requests
 
 CURRENT_TOKEN = None
-
 def get_auth_token():
     url = "https://login.kekademo.com/connect/token"
 

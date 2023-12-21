@@ -8,7 +8,7 @@ from Views import DuplicateTask, ClickupTask
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-class IUtron(commands.Bot):
+class IU_tron(commands.Bot):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -92,8 +92,8 @@ intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
 
-bot = IUtron(
-    command_prefix=["n", "N"],
+bot = IU_tron(
+    command_prefix=["i", "I"],
     help_command=None,
     chunk_guilds_at_startup=True,
     activity=discord.Activity(type=discord.ActivityType.playing, name="Hitwicket"),
