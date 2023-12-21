@@ -4,6 +4,7 @@ import openai
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+client = openai.OpenAI()
 
 def getTaskTitle(message):
     retries = 0
@@ -11,13 +12,13 @@ def getTaskTitle(message):
         try:
             a = "Make a clickup task title less than 13 words for the below message\n"
             a = a + message
-            res = openai.Completion.create(
-                model="text-davinci-003",
+            res = client.completions.create(
+                model="gpt-3.5-turbo-instruct",
                 prompt=a,
                 max_tokens=512,
                 temperature=0
             )
-            return "[BUG] " + res["choices"][0]["text"].strip()
+            return "[BUG] " + res.choices[0].text.strip()
         except Exception as e:
             print(e)
             retries = retries + 1
@@ -30,13 +31,13 @@ def getTaskDescription(message):
         try:
             a = "Make a bug report for the below message\n"
             a = a + message
-            res = openai.Completion.create(
-                model="text-davinci-003",
+            res = client.completions.create(
+                model="gpt-3.5-turbo-instruct",
                 prompt=a,
                 max_tokens=1000,
                 temperature=0
             )
-            return res["choices"][0]["text"].strip()
+            return res.choices[0].text.strip()
         except:
             retries = retries + 1
             time.sleep(1)
