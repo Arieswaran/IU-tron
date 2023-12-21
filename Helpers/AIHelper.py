@@ -2,9 +2,9 @@ import os
 import time
 import openai
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
 
-client = openai.OpenAI()
+client = openai.OpenAI(api_key=api_key)
 
 def getTaskTitle(message):
     retries = 0
